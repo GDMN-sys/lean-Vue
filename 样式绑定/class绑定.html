@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    #app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    * {
+        margin: 20px 7px;
+    }
+
+    .color-light {
+        background-color: aqua;
+        color: white;
+        font-size: 24px;
+        border: 2px solid black;
+        /* border-radius: 20px; */
+        width: 80%;
+        text-align: center;
+    }
+
+    .normal {
+        font-size: 24px;
+    }
+
+    .normal1 {
+        background-color: #008c8c;
+    }
+
+    .normal2 {
+        background-color: yellow;
+        border: 2px dashed black;
+    }
+
+    .styleArr1 {
+        border-radius: 20px;
+        background-color: rgb(177, 16, 171);
+
+    }
+
+    .styleArr2 {
+        border: 1px dashed black;
+
+    }
+
+    .styleArr3 {
+        letter-spacing: 6px;
+
+    }
+</style>
+
+<body>
+    <!-- 
+        1.class样式
+        写法:class="xxx" xxx可以是字符串、对象、数组。
+                字符串写法适用于：类名不确定，要动态获取。
+                对象写法适用于：要绑定多个样式，个数不确定，名字也不确定。
+                数组写法适用于：要绑定多个样式，个数确定，名字也确定，但不确定用不用。
+        2.style样式
+                :style="[fontSize： xxx}"其中xxx是动态值。
+                :style="[a,b]"其中a、b是样式对象。 -->
+    <div id="app">
+        <!-- @绑定class样式--字符串写法，适用于：样式的类名不确定，需要动态指定 -->
+        <div class="color-light" :class="classStyle" @click="changeClass">{{name}}</div><br />
+
+        <!-- @绑定class样式--数组写法，适用于：要绑定的样式个数不确定、名字也不确定 -->
+        <div class="color-light" :class="classArr">{{name}}</div>
+        <button @click="removeClass" style="width: 70px; height: 30px;">移除样式</button>
+
+        <!-- @绑定class样式--对象写法，适用于：要绑定的样式个数确定、名字也确定  动态决定用不用 -->
+        <div class="color-light" :class="classObj">{{name}}</div>
+
+
+
+        <!-- todo 内联样式 -->
+        内联样式
+        <!-- 内联样式写法1 -->
+        <div class="color-light" :style="{fontSize:fSize+'px'}">{{name}}内联样式写法1{fontSize:fSize+'px'}</div>
+        <!-- 内联样式写法2-->
+        <div class="color-light" :style="styleobj">{{name}}内联样式写法2 styleobj{} 常用</div>
+        <!-- 内联样式写法3-->
+        <div class="color-light" :style="[styleobj,styleobj2]">{{name}}内联样式写法3 [styleobj,styleobj2]</div>
+        <!-- 内联样式写法4-->
+        <div class="color-light" :style="styleArr">{{name}}内联样式写法4 styleArr 数组对象</div>
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            name: 'vue',
+            // 字符串样式
+            classStyle: 'normal',
+            // 数组样式
+            classArr: ['styleArr1', 'styleArr2', 'styleArr3'],
+            classObj: {
+                // 确定了个数和名字  不确定用不用  用布尔值
+                styleArr1: true,
+                styleArr2: true
+            },
+            // 内联样式写法  都得小驼峰    对象的key值不能乱写   
+            // 写法1  
+            fSize: 40,
+            // 写法2
+            styleobj: {
+                fontSize: '40px',
+            },
+
+            // 写法3  应用两个样式
+            styleobj2: {
+                backgroundColor: 'aqua',
+                color: 'red',
+            },
+            // 写法4  数组对象写法
+            styleArr: [
+                {
+                    fontSize: '40px',
+
+                },
+                {
+                    backgroundColor: '#008cc8',
+                    color: 'white',
+                    letterSpacing: '6px',
+                },
+            ],
+        },
+        // 计算属性
+        compute: {
+
+        },
+
+
+
+
+        // 方法函数
+        methods: {
+            changeClass() {
+                // this.classStyle = 'changeClass';
+                // 随机样式
+                const stylearr = ['normal', 'normal1', 'normal2'];
+                let index = Math.floor(Math.random() * 3)
+                this.classStyle = stylearr[index]
+            },
+            removeClass() {
+                this.classArr.shift()
+            }
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

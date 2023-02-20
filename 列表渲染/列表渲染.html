@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>人员列表(遍历数组对象)</h2>
+        <!-- @遍历数组对象 -->
+        <ul>
+            <li v-for="(item,index) of persons" :key="item.id">
+                {{item.name}}--{{item.age}}--{{index}}
+            </li>
+        </ul>
+        <!--@ 遍历对象 -->
+        <h2>车辆信息(遍历对象)</h2>
+        <ul>
+            <!-- 先是每一项 再是key -->
+            <li v-for="(value,key) of cars" :key="key">
+                {{key}}--{{value}}
+            </li>
+        </ul>
+        <!--@ 遍历字符串 -->
+        <h2>测试遍历字符串</h2>
+        <ul>
+            <li v-for="(item,index) of strs" :key="index">
+                {{index}}--{{item}}
+            </li>
+        </ul>
+        <h2>测试遍历指定次数</h2>
+        <ul>
+            <li v-for="(item,index) of 5 " :key="index">
+                索引 {{index}}--循环项{{item}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            persons: [
+                { id: '001', name: '张三', age: '18' },
+                { id: '002', name: '李四', age: '20' },
+                { id: '003', name: '王五', age: '22' },
+            ],
+            cars: {
+                name: '奥迪A8',
+                price: "20w",
+                color: '黑色',
+            },
+            strs: 'hello'
+        },
+        // 计算属性
+        compute: {
+
+        },
+        // 方法函数
+        methods: {
+
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

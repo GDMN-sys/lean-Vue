@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- @v-show做条件渲染 -->
+        <!--! 类似于为flase   display:none;  dom元素 还在只是隐藏了-->
+        <h1>v-show做条件渲染</h1>
+        <h2 v-show="true">欢迎来到{{name}}直接写布尔值</h2>
+        <h2 v-show="bools">欢迎来到{{name}}bools 通过vm管理的</h2>
+        <h2 v-show="1===1">欢迎来到{{name}}表达式</h2>
+        <h1>v-if做条件渲染</h1>
+        <!-- @v-if做条件渲染 -->
+        <!-- ! 当v-if为flase时 dom元素没有 -->
+        <h2 v-if="bools">欢迎来到{{name}}bools 通过vm管理的</h2>
+        <h2 v-if="1===0">欢迎来到{{name}}表达式</h2>
+
+
+
+        <h2>当前n的值为{{n}}</h2>
+        <button @click="n++">点我++</button>
+
+        <!--! v-show 适用于频繁的切换或显示页面使用  以为他只是隐藏元素  -->
+        <h2 v-show="n===1">v-show:Tom</h2>
+        <h2 v-show="n===2">v-show:Jerry</h2>
+        <h2 v-show="n>=3">v-show:Tom&jerry</h2>
+        <!-- ! v-if  频率低时可以使用-->
+        <h2 v-if="n===1">v-if:Tom</h2>
+        <h2 v-if="n===2">v-if:Jerry</h2>
+        <h2 v-if="n>=3">v-if:Tom&jerry</h2>
+        <!--! v-if v-else-if  v-else  判断不可以被打断  必须连续-->
+        <h2 v-if="n===1">v-if:Tom</h2>
+        <h2 v-else-if="n===2">v-else-if:Jerry</h2>
+        <h2 v-else=>v-else:Tom&jerry</h2>
+        <!-- 打断示例 -->
+        <!-- <h2 v-if="n===1">v-if:Tom</h2>
+        <div>打断</div>
+        <h2 v-else-if="n===2">v-else-if:Jerry</h2>
+        <h2 v-else=>v-else:Tom&jerry</h2> -->
+
+
+        <!-- 😀   简化臃肿的代码 -->
+        <h1>简化过后</h1>
+        <!-- 如果判断的表达式显示的都一样 -->
+        <!-- <h2 v-show="n===1">v-show:Tom</h2>
+        <h2 v-show="n===1">v-show:Jerry</h2>
+        <h2 v-show="n===1">v-show:Tom&jerry</h2> -->
+
+        <!-- 简化  利用外层直接判断显示-->
+        <!-- !此方法会破坏dom结构 此时可以使用template -->
+        <div v-show="n===1">
+            <h2>div:v-show:Tom</h2>
+            <h2>div:v-show:Jerry</h2>
+            <h2>div:v-show:Tom&jerry</h2>
+        </div>
+        <!-- !template 只能与v-if使用 不会被解析  自然而然不会改变dom结构-->
+        <template v-if="n===1">
+            <h2>template:v-if:Tom</h2>
+            <h2>template:v-if:Jerry</h2>
+            <h2>template:v-if:Tom&jerry</h2>
+        </template>
+    </div>
+    <!-- !总结
+    条件渲染：
+            1.v-if
+                写法：
+                    (1).v-if="表达式”
+                    (2).v-else-if="表达式"
+                    (3).v-else="表达式”
+                适用于：切换频率较低的场景。
+                特点：不展示的DOM元素直接被移除。
+                注意：v-if可以和:v-else-if、v-else一起使用，但要求结构不能被“打断”。
+            2.V-show
+                写法：V-show="表达式”
+                适用于：切换频率较高的场景。
+                特点：不展示的DOM元素未被移除，仅仅是使用样式隐藏掉
+            3.备注：使用v-if的时，元素可能无法获取到，而使用v-show一定可以取到。
+                当v-if为flase时dom节点在获取时会出问题
+         
+</body>
+
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            name: '尚硅谷',
+            bools: true,
+            n: 0,
+        },
+        compute: {
+
+        },
+        methods: {
+
+        }
+
+    });
+
+</script>
+
+</html>

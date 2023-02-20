@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+</head>
+<script type="text/javascript" src="../js/vue.js"></script>
+<!--@ 总结Vue组件化的三步骤 -->
+<!-- 
+    !一、定义组件(创建组件)
+    !二、注册组件
+    ! 三、使用组件(写组件标签)
+一、如何定义一个组件？
+    使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options儿乎一样，但也有点区别；
+区别如下：
+    1.el不要写，为什么？— 最终所有的组件都要经过一个vm的管理，由vm中的el决定服务哪个容器。
+    2.data必须写成函数，为什么？— 避免组件被复用时，数据存在引用关系。
+    备注：使用template可以配置组件结构。
+二、如何注册组件？
+    1.局部注册：靠new Vue的时候传入components选项
+    2.全局注册：靠Vue.component('组件名',组件）
+三、编写组件标签：
+    <school/school> -->
+
+<body>
+    <div id="app">
+        <!-- 使用组件 标签 -->
+        <school></school>
+        <hr />
+        <student></student>
+        <hr />
+    </div>
+    <div id="root">
+        <!-- student 注册成了全局组件都可以用 -->
+        <student></student>
+        <hr />
+    </div>
+</body>
+<script type="text/javascript">
+    // 1.创建组件
+    // 创建一个school组件
+    const school = Vue.extend({
+        // vue开发者工具中显示的名字
+        name: 'xuexiao',
+        // 模板 结构
+        template: `
+        <div>
+            <h2>{{name}}</h2>
+            <h2>{{address}}</h2>
+        </div>
+        `,
+        data() {
+            return {
+                name: '尚硅谷',
+                address: '北京昌平',
+            }
+        },
+    })
+    // 创建一个student组件
+    const student = Vue.extend({
+        template: `
+        <div>
+            <h2>{{name}}</h2>
+            <h2>{{address}}</h2>
+        </div>
+        `,
+        data() {
+            return {
+                name: 'tom',
+                address: '上海',
+            }
+        },
+    })
+    // 全局注册组件
+    Vue.component('student', student)
+
+    // 创建vue实例
+    const vm = new Vue({
+        el: "#app",
+        // 2.注册组件(局部注册)
+        components: {
+            // 要使用时的名字: school组件的名字,  //如果名字一样可以省略
+            // school: school,
+            school,
+            // student,
+        }
+    })
+
+
+    // 创建vue实例2  以便使用全局组件
+    new Vue({
+        el: "#root",
+    })
+</script>
+
+</html>

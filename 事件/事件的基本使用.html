@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>欢迎来到{{name}}</h2>
+        <!-- <button v-on:click="showInfo">按钮1</button> -->
+        <!-- 语法糖  用@代替v-on -->
+        <button @click="showInfo">按钮1(不带参数)</button>
+        <button @click="showInfo2(666,$event)">按钮1(带参数传递)</button>
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+
+            name: "尚硅谷"
+
+        },
+        // 方法函数
+        methods: {
+            showInfo(event) {
+                console.log(this);//指向vm实例 或者组件实例对象 不能用箭头函数用箭头函数this指向window
+                console.log(event, "111");
+            },
+            showInfo2(number, event) {
+                console.log(number, event);// 如果有参数时event事件源会被隐藏 可以用$event占位
+
+            }
+
+
+        },
+        // 计算属性
+        compute() {
+
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

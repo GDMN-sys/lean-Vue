@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    ul {
+        list-style-type: square
+    }
+</style>
+
+<body>
+    <div id="app">
+        <h2>人员列表</h2>
+        <input type="text" v-model="keyword" placeholder="Enter your">
+        <button @click="sortType=2">年龄升序</button>
+        <button @click="sortType=1">年龄降序</button>
+        <button @click="sortType=0">原始排序</button>
+        <ul>
+            <li v-for="(item,index) of filpersons" :key="item.id">
+                {{item.name}}--{{item.age}}--{{item.sex}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+<script>
+    document.ge
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            keyword: '',
+            sortType: 0,//0原顺序 1降序 2升序
+            persons: [
+                { id: '001', name: '马冬梅', age: '18', sex: '女' },
+                { id: '002', name: '周冬雨', age: '20', sex: '女' },
+                { id: '003', name: '周杰伦', age: '22', sex: '男' },
+                { id: '004', name: '温兆伦', age: '12', sex: '男' },
+            ],
+        },
+        // 计算属性实现
+        computed: {
+            filpersons() {
+                let arr = this.persons.filter((item) => {
+                    // 当keyword改变时就会调用这个函数
+                    return item.name.indexOf(this.keyword) != -1;
+                })
+                // 判断一下是否要排序
+                // 如果this.sortType为真就进入if
+                if (this.sortType) {
+                    console.log(this.sortType);
+                    // 当我们点击了按钮sortType发生了改变运行函数
+                    arr.sort((a, b) => {
+                        // sort 排序 接受两个参数 会改变原数组  a-b升序 b-a降序
+                        return this.sortType == 1 ? b.age - a.age : a.age - b.age;
+                    })
+                }
+                return arr;
+            }
+        },
+        // 方法函数
+        methods: {
+
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

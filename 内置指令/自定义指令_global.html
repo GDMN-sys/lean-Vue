@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+</head>
+<script type="text/javascript" src="../js/vue.js"></script>
+<!-- ?自定义指令总结： -->
+<!-- #region -->
+<!-- 
+一、定义语法：
+    @(1)局部指令
+        directives:{指令名:配置对象}                          或   directives{指令名:回调函数}
+                    big: function (element, binding) {}             big (element, binding) {}
+    @ (2).全局指令：
+        Vue.directive(指令名,配置对象）或
+            ! Vue.directive('foucsbind', {})
+        Vue.directive(指令名,回调函数)
+二、配置对象中常用的3个回调：
+    !(1).bind：指令与元素成功绑定时调用。
+    !(2).inserted:指令所在元素被插入页面时调用。
+    !(3).update：指令所在模板结构被重新解析时调用。
+I
+三、备注：
+    1.指令定义时不加V-，但使用时要加 v- ；
+    2.指令名如果是多个单词，要使用kebab-case(find-number)命名方式，不要用camelCase(findNumber)命名。 -->
+<!-- #endregion -->
+
+<body>
+    <!-- ! 需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍。
+            ! 需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。 -->
+    <div id="app">
+        <h2>当前的n值<span v-text="n"></span></h2>
+        <h2>放大10倍的n值是: <span v-big="n"></span></h2>
+        <button @click="n++">n++</button>
+        <br />
+        <!-- autofocus 自动获取焦点 -->
+        <!-- <input type="text" :value="n" /> -->
+        <input type="text" v-fbind="n" />
+    </div>
+
+</body>
+<script type="text/javascript">
+    // 定义一个全局指令
+    Vue.directive('foucsbind', {
+        bind(element, binding) {
+            // this 指向window
+            console.log('bind:' + element, binding);
+            element.value = binding.value
+        },
+        inserted(element, binding) {
+            element.focus()
+            console.log('inserted:' + element, binding);
+
+        },
+        update(element, binding) {
+            console.log('update:' + element, binding);
+            element.value = binding.value
+        },
+    })
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            n: 1,
+        },
+        // 自定义指令
+        directives: {
+            // 处理简单的用函数式  
+            /* big函数何时会被调用？
+                1.指令与元素成功绑定时 
+                2.指令所在的模板重新解析时
+                */
+            big: function (element, binding) {
+                // console.log(element, binding);
+                element.innerHTML = binding.value * 10;
+            },
+            // <!-- @处理细一点的函数   完整形式 固定写法-->
+            fbind: {
+                // <!-- ?bind和update逻辑一般都是一样的  所以函数fbind(element, binding) {}的方式就相当于就只设置了bind和update-->  
+                //<!-- !指令与元素成功绑定时 -->  
+                bind(element, binding) {
+                    // this 指向window
+                    console.log('bind:' + element, binding);
+                    element.value = binding.value
+                },
+                //<!-- !指令所在元素被插入页面时调用-->
+                inserted(element, binding) {
+                    element.focus()
+                    console.log('inserted:' + element, binding);
+
+                },
+                // <!-- !指令所在的模板重新解析时-->
+                update(element, binding) {
+                    console.log('update:' + element, binding);
+                    element.value = binding.value
+                },
+            }
+
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+</head>
+<script type="text/javascript" src="../js/vue.js"></script>
+
+
+<body>
+    <div id="app">
+        <!--！全都给app管理了可以在app中定义模板中这里就不用写了 -->
+        <!-- <app></app> -->
+    </div>
+</body>
+<script type="text/javascript">
+    // <!--!先定义student组件 防止后面嵌套时未定义
+    const student = {
+        template: `
+        <div>
+            <h3>学生名称：{{ name }}</h3>
+            <h3>学生地址：{{address}}</h3>
+        </div>
+        `,
+        data() {
+            return {
+                name: 'Jerry',
+                address: '英国',
+            }
+        },
+    }
+    /* 
+    
+    
+    */
+    // 定义hello组件
+    const hello = {
+        template: `
+        <div>
+            <h2>Hello ! {{message}}</h2>    
+        </div>
+        `,
+        data() {
+            return {
+                message: 'welcom to shangguigu'
+            }
+        },
+    }
+
+    // 定义组件 可以简写  const school={} 在实例中定义组件名时会帮忙调用
+    // const school=Vue.extend({ })
+    const school = {
+        template: `
+        <div>
+            <h2>学校名称：{{ name }}</h2>
+            <h2>学校地址：{{address}}</h2>
+            <hr />
+            <!--! 在这调用子组件  组件的嵌套 -->
+            <student></student>
+        </div>
+        `,
+        data() {
+            return {
+                name: '尚硅谷',
+                address: '北京昌平',
+            }
+        },
+        // <!--!在school组件中注册student组件
+        components: {
+            student,
+        }
+    }
+    // <!--! 定义app组件管理其他(hello  school ...)组件 -->
+
+    const app = Vue.extend({
+        template: `
+        <div>
+            <hello></hello>
+            <school></school>
+
+        </div>
+        `,
+        components: {
+            school,
+            hello,
+        }
+    })
+    // vm实例
+    const vm = new Vue({
+        //<!--@ 效果一样
+        template: ` <app></app>`,
+        el: "#app",
+        components: {
+            // <!--!交给app组件管理其他组件
+            app
+        },
+        data: {
+
+        },
+
+    })
+</script>
+
+</html>

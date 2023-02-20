@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    a {
+        margin-top: 20px;
+        text-decoration: none;
+        color: currentColor;
+        display: inline-block;
+    }
+
+    button {
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+
+    .box1 {
+        padding: 10px;
+        background-color: skyblue;
+    }
+
+    .box2 {
+        padding: 10px;
+        background-color: #008c8c;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <h2>欢迎学习{{name}}</h2>
+        <!--todo 事件修饰符 -->
+
+        <!-- @1.阻止默认事件 prevent  -->
+        <a :href="url" @click="showInfo">点击跳转</a><br />
+        <a :href="url" @click.prevent="showInfo">点击跳转(阻止调用默认行为prevent)</a>
+
+        <!-- @2.阻止事件冒泡 stop -->
+        <div @click="showInfo2">
+            <!-- !里层点击事件触发完后外层也会在触发一次 就是事件冒泡 -->
+            <button @click="showInfo2">点我提示信息(事件冒泡)</button>
+            <button @click.stop="showInfo2">点我提示信息(阻止了冒泡弹窗1次)</button>
+        </div>
+
+        <!-- @ 3.事件只触发一次 once -->
+        <button @click.once="showInfo2">点我提示信息(只能点一次 第二次就失效了)</button>
+
+        <!-- @ 4.使用事件捕获模式capture -->
+        <!-- ! 事件过程是先事件捕获 =>再事件冒泡(冒泡阶段才是处理事件的) -->
+        <!-- 而capture 可以让事件在捕获阶段就处理 -->
+        <!--! 当我们点击box2时是先输出 2 在1 -->
+        <!-- !捕获阶段是由外到内  而冒泡是从内到外 -->
+
+        <div class="box1" @click="showMes(1)">
+            box1(没有修改事件执行)
+            <div class="box2" @click="showMes(2)">box2</div>
+        </div>
+        <br />
+        <!-- 在捕获阶段就执行了showMes(1) -->
+        <div class="box1" @click.capture="showMes(1)">
+            box1(修改事件在捕获阶段执行capture)
+            <!-- 点击box2时log(1  2) -->
+            <div class="box2" @click="showMes(2)">box2</div>
+        </div>
+        <!-- @5.self：只有event.target是当前操作的元素时才触发事件;-->
+
+
+
+
+        <!--@6. passive: 事件的默认行为立即执行，无需等待事件回调执行完毕；  -->
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            name: '尚硅谷',
+            url: 'https://www.baidu.com'
+        },
+        // 计算属性
+        compute: {
+
+        },
+        // 方法函数
+        methods: {
+            showInfo(event) {
+                // 事件阻止调用默认行为    在vue中直接在事件绑定中添加修饰符prevent即可@click.prevent="showInfo"
+                // event.preventDefault();
+                alert('跳转等待')
+            },
+            showInfo2(event) {
+                // 阻止事件冒泡       在vue中直接在事件绑定中添加修饰符 stop即可
+                // event.stopPropagation();
+                alert('点击了')
+            },
+            showMes(e) {
+                console.log(e);
+            }
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

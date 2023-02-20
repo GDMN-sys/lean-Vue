@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue.set()</title>
+</head>
+<script src="../js/vue.js"></script>
+
+<body>
+    <div id="app">
+        <h2>学生信息</h2>
+        <h2>姓名{{name}}</h2>
+        <h2>年龄{{age}}</h2>
+        <!-- 点击添加性别 -->
+        <button @click="addSex">addSex</button>
+        <h2 v-for="(f,index) in friends">
+            朋友姓名: {{f.name}}年龄{{f.age}}
+            <h2 v-if="friends.sex">性别{{friends.sex}}</h2>
+        </h2>
+
+
+
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            name: '尚硅谷',
+            age: 18,
+            sex: '男',
+            friends: [
+                { name: 'tom', age: 20 },
+                // { name: 'jerry', age: 30 },
+            ],
+            cars: {
+                name: '奥迪A8',
+                price: "20w",
+                color: '黑色',
+            },
+        },
+        // 计算属性
+        computed: {
+
+        },
+        // 方法函数
+        methods: {
+            addSex() {
+                console.log(this)
+                // set(target, key,val)target不可以是data也不可以是vm  不能给vue实例对象加，可以给data里面的对象添加
+                // target值 不能是Vue实例 或者 Vue实例的根数据(data/_data)对象。
+                Vue.set(this.friends, 'sex', '男')
+                // or 
+                // vm.$set(this.friends, 'sex', '女')
+            }
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

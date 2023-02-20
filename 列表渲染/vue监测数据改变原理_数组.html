@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue.set()</title>
+</head>
+<script src="../js/vue.js"></script>
+
+<body>
+    <!--
+        Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：
+        push()  追加最后
+        pop()  删除最后一个
+        shift()  删除前面一个
+        unshift()  在最前面添加
+        splice()  替换 
+        从第2个开始 删除1个 并插入trumpet  从删除的位置插入
+            var myFish = ['angel', 'clown', 'drum', 'sturgeon'];
+            var removed = myFish.splice(2, 1, "trumpet");
+            // 运算后的 myFish: ["angel", "clown", "trumpet", "surgeon"]
+            // 被删除的元素: ["drum"]
+        sort() 排序
+        reverse() 数组翻转
+        上面都会改变原数组 所以被包装的这些数组方法就会重新渲染数据
+    -->
+    <!--! Vue.set(vm.hobby,1,'喝啤酒') -->
+    <!-- @也可以改变数组 -->
+
+    <!--! filter()、concat() 和 slice()。它们不会变更原始数组 -->
+    <div id="app">
+        <button @click="addhobby">add</button>
+        <button @click="delkstr">add</button><input type="text" v-model="inputval">{{tip}}
+        <h2>
+            hobby<ul v-for="(item,index) in hobby" :key="index">
+                <li>{{item}}</li>
+            </ul>
+        </h2>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            inputval: '',
+            tip: '',
+            hobby: ['抽烟', '喝酒', '烫头'],
+            friends: [
+                { name: 'tom', age: 20 },
+                { name: 'jerry', age: 30 },
+            ],
+        },
+        // 计算属性
+        computed: {
+
+        },
+        // 方法函数
+        methods: {
+            addhobby() {
+                this.hobby.push(this.inputval)
+            },
+            delkstr() {
+                this.hobby.pop(this.inputval)
+            }
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

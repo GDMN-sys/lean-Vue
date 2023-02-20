@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript">
+    let number = 18;
+    let person = {
+        name: 'John',
+        sex: 'man',
+
+    }
+    // 通过object.defineProperty为对象添加属性
+    //  Object.defineProperty("对象名","属性名","属性对象")
+    Object.defineProperty(person, 'age', {
+        //通过这个方式添加的默认不可枚举即不可遍历 42行代码
+        // value: 18,
+        // enumerable: true,//控制属性是否可以枚举 默认false   为true可以遍历
+        // writable: true,//控制属性是否可以修改  默认flase         person.vlaue=19  不可修改 
+        // configurable: true,//控制属性可以被删除  默认flase      delete name //true
+
+        // 当有人调用person中的age属性时 get函数(getter)就会被调用且返回的值就是age的值
+        get() {
+            console.log("读取了age属性了")
+            return number;
+        },
+        set(value) {
+            console.log("修改了age属性", value);
+            number = value;
+
+        }
+    })
+    console.log(person);
+    for (let key in person) {
+        console.log(key);  //name sex
+    }
+
+</script>
+
+</html>

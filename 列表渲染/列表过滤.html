@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    ul {
+        list-style-type: square
+    }
+</style>
+
+<body>
+    <div id="app">
+        <h2>人员列表</h2>
+        <input type="text" v-model="keyword" placeholder="Enter your">
+        <ul>
+            <li v-for="(item,index) of filpersons" :key="item.id">
+                {{item.name}}--{{item.age}}--{{item.sex}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        data: {
+            keyword: '',
+            persons: [
+                { id: '001', name: '马冬梅', age: '18', sex: '女' },
+                { id: '002', name: '周冬雨', age: '20', sex: '女' },
+                { id: '003', name: '周杰伦', age: '22', sex: '男' },
+                { id: '004', name: '温兆伦', age: '22', sex: '男' },
+            ],
+            // 过滤完的数组
+            // filpersons: [],
+        },
+        // #region  强制折叠代码
+        // 监视keyword改变
+        /*         watch: {
+                    keyword: {
+                        // 先执行一次 handler
+                        // 当keyword值为空时  ‘’布尔值为0   先调用了一次  value为0 过滤时indexOf值为0时都能找到所以persons数组中的值都赋值给了filpersons
+                        immediate: true,
+                        handler(value) {
+                            console.log(value);
+                            // 过滤persons数组中的name
+                            this.filpersons = this.persons.filter((item) => {
+                                return item.name.indexOf(value) != -1;
+                            })
+                        }
+                    }
+                }, */
+        // #endregion
+        // 计算属性实现
+        computed: {
+            filpersons() {
+                let arr = this.persons.filter((item) => {
+                    // 当keyword改变时就会调用这个函数
+                    return item.name.indexOf(this.keyword) != -1;
+                })
+                return arr;
+            }
+        },
+        // 方法函数
+        methods: {
+
+        },
+        // vm.mount('#app')
+    })
+</script>
+
+</html>

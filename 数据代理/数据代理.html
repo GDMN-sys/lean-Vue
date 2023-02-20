@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 数据代理通过一个对象(obj2)代理对另一个对象(obj)的(读 / 写)操作
+    let obj = {
+        x: 100
+    }
+    let obj2 = {
+        y: 20,
+    }
+    Object.defineProperty(obj2, "x", {
+        // get: function () {}也可以写成下面
+        get() {
+            // 当获取时将obj.x return 给obj2
+            console.log(obj);
+            return obj.x;
+        },
+        // 给obj2 添加代理  当obj2中修改x时obj.x = value;
+        set(value) {
+            obj.x = value;
+        }
+    })
+
+</script>
+
+</html>

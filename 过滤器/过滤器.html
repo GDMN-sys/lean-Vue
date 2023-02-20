@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+</head>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script src="../js/dayjs.min.js"></script>
+
+<body>
+    定义：过滤器 对要显示的数据进行特定格式化后再显示（适用于一些简单逻辑的处理）。
+    <!-- 语法：
+        1.注册过滤器：Vue.filter(name,callback)或 new Vue[filters:[(]}
+        2.使用过滤器：{( xxx |过滤器名]} 或 v-bind:属性 = "xxx | 过滤器名”
+        备注：
+            1.过滤器也可以接收额外参数、多个过滤器也可以串联
+            2.并没有改变原本的数据，是产生新的对应的数据 -->
+    <div id="app">
+        <h3>时间戳{{time}}</h3>
+        <!-- 计算属性实现 -->
+        <h3>时间{{FmtTime}}</h3>
+        <!-- methods实现 -->
+        <h3>时间{{getformatTime()}}</h3>
+        <!-- 过滤器实现 -->
+        <!-- ?{{变量 | 函数}}   管道符( | )-->
+        <!--将time作为函数filtime的参数传递 不用加（）默认也会传 -->
+        <h3>过滤器{{time | filTime}}</h3>
+        <!-- ?过滤器的传参 -->
+        <h3>过滤器的传参{{time | filTime('YYYY-MM-DD')}}</h3>
+        <!-- !多个过滤器 串联    time作为filTime 的参数传递  返回之后值作为 mySlice的参数传递 -->
+        <h3>多个过滤器 串联 截取{{time | filTime('YYYY-MM-DD') | mySlice}}</h3>
+
+    </div>
+    <!-- vue实例2 -->
+    <div id="root">
+        <h2>{{name}}</h2>
+        <h3>{{num | mySlice}}</h3>
+    </div>
+</body>
+<script type="text/javascript">
+    // 全局过滤器   得一个一个写
+    // Vue.filter('name', function (val) {})
+    Vue.filter('mySlice', function (val) {
+        return val.slice(0, 4)
+    }),
+        Vue.filter('filTime', function (val, str = 'YYYY-MM-DD HH:mm:ss') {
+            return dayjs(val).format(str)
+        })
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            // time: new Date().getTime(), 
+            time: 1667461939124,//时间戳
+        },
+        // 计算属性
+        computed: {
+            FmtTime() {
+                // let date = new Date(this.time)
+                // let year = date.getFullYear()
+                // let month = date.getMonth() + 1
+                // let day = date.getDate()
+                // let hour = date.getHours()
+                // let minute = date.getMinutes()
+                // let second = date.getSeconds()
+                // let formatdate = year + '年' + month + '月' + day + '日' + hour + '时' + minute + '分' + second + '秒'
+                // return formatdate
+                // 利用开源库
+                /*         dayjs()  该库的接口
+                            .startOf('month')
+                            .add(1, 'day')
+                            .set('year', 2018)
+                            .format('YYYY-MM-DD HH:mm:ss') */
+                return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+
+            }
+        },
+        // 方法函数
+        methods: {
+            getformatTime() {
+                return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+            }
+        },
+        // 局部过滤器
+        filters: {
+            // 如果没有传递str就用  默认值
+            // filTime(val, str = 'YYYY-MM-DD HH:mm:ss') {
+            //     // return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+            //     return dayjs(val).format(str)
+
+            // },
+            // mySlice(val) {
+            //     console.log(val);
+            //     return val.slice(0, 4)
+            // }
+        }
+    })
+    // vue实例2
+    new Vue({
+
+        el: '#root',
+        // 数据
+        data: {
+            name: 'root实例',
+            num: '136382',
+        },
+
+    })
+
+</script>
+
+</html>

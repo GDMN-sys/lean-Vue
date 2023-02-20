@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        {{name}}<br />
+        {{address}}</div>
+</body>
+<script>
+    // Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: '#app',
+        // 数据
+        // Vue在data中添加属性时Vue实例会自动添加数据代理get set
+        /* get address: ƒ proxyGetter()
+        set address: ƒ proxySetter(val)
+        get name: ƒ proxyGetter()
+        set name: ƒ proxySetter(val) */
+        data: {
+            name: '尚硅谷',
+            address: '北京'
+        },
+        // 计算属性
+        compute() {
+
+        },
+        // 方法函数
+        method() {
+
+        }
+        // vm.mount('#app')
+    })
+
+</script>
+
+</html>
